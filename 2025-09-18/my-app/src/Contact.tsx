@@ -3,8 +3,18 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
+import useLocalStorage from "./useLocalStorage";
 
 export default function Contact() {
+  const [message, setMessage] = useLocalStorage<string>("contactMessage", "");
+
+  const [email, setEmail] = useLocalStorage<string>("contactEmail", "");
+
+  const Submit = () => {
+    console.log("messaeg:", message);
+    console.log("email:", email);
+  };
+
   return (
     <>
       <DrawerAppBar />
@@ -24,6 +34,8 @@ export default function Contact() {
         rows={4}
         fullWidth
         variant="outlined"
+        value={message}
+        onChange={(e) => setMessage(e.target.value)}
       />
       <br />
       <br />
@@ -34,10 +46,12 @@ export default function Contact() {
         rows={1}
         fullWidth
         variant="outlined"
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
       />
       <br />
       <br />
-      <Button variant="contained" size="large">
+      <Button variant="contained" size="large" onClick={Submit}>
         Fire away!
       </Button>
     </>
