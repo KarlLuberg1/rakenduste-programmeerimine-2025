@@ -17,14 +17,45 @@ const cats = [
 
 exports.create = (req, res) => {
   const { name } = req.body;
-  console.log(req.body);
-  res.sendStatus(201);
+
+  const newCat = {
+    id: crypto.randomUUID(),
+    name,
+    createdAt: Date.now(),
+    updatedAt: null,
+    deleted: false,
+  };
+
+  cats.push(newCat);
+  res.status(201).json(newCat);
 };
 
 exports.read = (req, res) => {
   res.send(cats);
 };
 
-exports.update = (req, res) => {};
+exports.update = (req, res) => {
+  const { id } = req.params;
+  const { name } = req.body;
 
-exports.delete = (req, res) => {};
+  let cat = cats.find((cat) => cat.id === id);
+  if (!cat) {
+    return res.status(404).json({ message: "Cat not found" });
+  }
+
+  cat.name = name || cat.name;
+  cat.updatedAt = Date.now();
+
+  res.json(cat);
+};
+
+exports.delete = (req, res) => {
+  const { id } = req.params;
+
+  let cat = cats.find((cat) => cat.id === id);
+
+  cat.deleted = true;
+  cat.updatedAt = Date.now;
+
+  res.json(cat);
+};
