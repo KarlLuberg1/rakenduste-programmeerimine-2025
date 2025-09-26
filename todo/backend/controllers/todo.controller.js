@@ -20,6 +20,8 @@ const todos = [
   },
 ];
 
+exports.todos = todos;
+
 exports.create = (req, res) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
