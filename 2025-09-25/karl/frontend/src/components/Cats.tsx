@@ -1,6 +1,7 @@
 import { Box, List, ListItem, Typography } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import SubmitCat from "./SubmitCat.tsx";
+import DeleteCat from "./DeleteCat.tsx";
 
 type Cat = {
   id: string;
@@ -27,7 +28,7 @@ const Cats = () => {
   return (
     <Box>
       <Typography variant="h1">Cats</Typography>
-      <CatsList cats={cats} />
+      <CatsList cats={cats} fetchCats={fetchCats} />
       <SubmitCat fetchCats={fetchCats} />
     </Box>
   );
@@ -35,13 +36,17 @@ const Cats = () => {
 
 type CatsListProps = {
   cats: Cat[];
+  fetchCats: () => void;
 };
 
-const CatsList: React.FC<CatsListProps> = ({ cats }) => {
+const CatsList: React.FC<CatsListProps> = ({ cats, fetchCats }) => {
   return (
     <List>
       {cats.map((cat) => (
-        <ListItem key={cat.id}>{JSON.stringify(cat)}</ListItem>
+        <ListItem key={cat.id}>
+          {JSON.stringify(cat)}
+          <DeleteCat id={cat.id} fetchCats={fetchCats} />
+        </ListItem>
       ))}
     </List>
   );
